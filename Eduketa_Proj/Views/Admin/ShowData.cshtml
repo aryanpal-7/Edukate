@@ -1,0 +1,36 @@
+﻿
+@model IEnumerable<Eduketa_Proj.Models.Course>
+@{
+    ViewBag.Title = "ShowData";
+    Layout = "~/Views/Shared/_AdminHome.cshtml";
+}
+
+
+
+
+
+
+<table width="100%" border="1px">
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Image</th>
+        <th>Description</th>
+    </tr>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.name</td>
+            <td>@x.price</td>
+
+            <td><center><img src="@Url.Content(x.image)" width="200px" height="200px" /></center></td>
+            <td>@x.description</td>
+
+            <td> @Html.ActionLink("Edit", "Edit", new { id = x.id })</td>
+            <td> @Html.ActionLink("Delete", "Delete", new { id = x.id }, new { @onclick = "return confirm('Are You Sure You Want To Delete This Record.')" })</td>
+        </tr>
+    }
+</table>
+
+
+

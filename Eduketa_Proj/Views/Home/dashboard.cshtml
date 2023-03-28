@@ -1,0 +1,63 @@
+﻿@model Eduketa_Proj.Models.UserDashboard
+@{ ViewBag.Title = "dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if (Model.coursename.Count <= 0)
+{
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">No Orders Found</h5>
+                        <p class="card-text text-dark font-weight-bold"> Looks like you haven't placed any order.</p>
+                        <div class="row justify-content-end mr-4">
+                            <a href="/Home/Courses" class="btn btn-success">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <h1 class="text-info">Welcome @Model.user.name</h1>
+        <h1>Order History</h1>
+        @for (int i = 0; i < Model.coursename.Count; i++)
+        {
+            <!-- Order Card -->
+            <div class="card order-card">
+                <div class="card-header">
+                    Order id:<span class="text-dark font-weight-bold"> @Model.orderid[i]</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="@Url.Content(@Model.image[i])" width="100%" height="100%" alt="Product Image">
+                        </div>
+                        <div class="col-md-9">
+                            <p class="product-name">Product Name:<span class=" text-dark font-weight-bold">@Model.coursename[i]</span> </p>
+                            <p>Order Date:<span class=" text-dark  font-weight-bold">@Model.bought[i].Purchased_Date.ToString().Split(' ')[0]</span> </p>
+
+                            <p>Amount Paid: <i class="fas fa-rupee-sign"></i><span class=" text-dark  font-weight-bold">@Model.Price[i]</span> </p>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 d-flex justify-content-end align-items-end">
+
+                            <p class="text-dark mb-0  justify-content-end"><a href="/Home/Details/@Model.bought[i].course_id" class="btn btn-block btn-success">See Course</a></p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>}
+        <!-- End Order Card -->
+        <!-- Repeat for each order -->
+    </div>
+}

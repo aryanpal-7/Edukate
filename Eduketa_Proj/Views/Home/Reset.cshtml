@@ -1,0 +1,24 @@
+﻿@model Eduketa_Proj.Models.forget
+@{
+    ViewBag.Title = "Reset";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form action="/Home/Reset/@Model.keycode" method="post">
+    <div class="form-row">
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <input type="password" class="form-control bg-light border-0" placeholder="New Password" name="password" style="padding: 30px 20px;">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <input type="password" class="form-control bg-light border-0" placeholder="Confirm NewPassword" name="cpassword" style="padding: 30px 20px;">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input type="Submit" class="btn btn-primary btn-block" value="Login" style="padding: 10px 5px;">
+        </div>
+        </div>
+    </form>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="eduketaModelStoreContainer" CdmEntityContainer="eduketaEntities1">
+    <EntitySetMapping Name="Courses">
+      <EntityTypeMapping TypeName="eduketaModel.Course">
+        <MappingFragment StoreEntitySet="Course">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="eduketaModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="bought_course">
+      <EntityTypeMapping TypeName="eduketaModel.bought_course">
+        <MappingFragment StoreEntitySet="bought_course">
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="Purchased_Date" ColumnName="Purchased_Date" />
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="coursepayments">
+      <EntityTypeMapping TypeName="eduketaModel.coursepayment">
+        <MappingFragment StoreEntitySet="coursepayment">
+          <ScalarProperty Name="paymentid" ColumnName="paymentid" />
+          <ScalarProperty Name="signature" ColumnName="signature" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="orderid" ColumnName="orderid" />
+          <ScalarProperty Name="courseid" ColumnName="courseid" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="forgets">
+      <EntityTypeMapping TypeName="eduketaModel.forget">
+        <MappingFragment StoreEntitySet="forget">
+          <ScalarProperty Name="UpdateOn" ColumnName="UpdateOn" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="keycode" ColumnName="keycode" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DemoCourses">
+      <EntityTypeMapping TypeName="eduketaModel.DemoCourse">
+        <MappingFragment StoreEntitySet="DemoCourse">
+          <ScalarProperty Name="demotime" ColumnName="demotime" />
+          <ScalarProperty Name="demodate" ColumnName="demodate" />
+          <ScalarProperty Name="course" ColumnName="course" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contacts">
+      <EntityTypeMapping TypeName="eduketaModel.Contact">
+        <MappingFragment StoreEntitySet="Contact">
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
