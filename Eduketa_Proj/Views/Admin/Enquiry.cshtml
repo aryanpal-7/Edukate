@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Eduketa_Proj.Models.Contact>
+@{
+    ViewBag.Title = "Enquiry";
+    Layout = "~/Views/Shared/_AdminHome.cshtml";
+}
+
+
+<div class="container">
+    @foreach (var x in Model)
+    {
+        <div class="card" style="width: 18rem;">
+
+            <div class="card-body">
+                <p class="card-title"><span class="h4">Name: </span>@x.UserName
+                <p class="card-title"><span class="h4">User Id: </span>@x.userid
+                <p class="card-title"><span class="h4">Subject: </span>@x.Subject
+                <p class="card-text">@x.Message</p>
+                <button class="btn btn-primary">Response</button>
+            </div>
+        </div>}
+</div>

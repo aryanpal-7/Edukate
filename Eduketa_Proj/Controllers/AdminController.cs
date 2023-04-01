@@ -103,5 +103,71 @@ namespace Eduketa_Proj.Controllers
            return RedirectToAction("AddCourse");
             
         }
+
+        public ActionResult signup()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult signup(AdminSignupModel ad)
+        {
+            if (ModelState.IsValid)
+            {
+                var existuser = ed.adminsignups.FirstOrDefault(x => x.email == ad.email);
+                if (existuser == null)
+                {
+                    User u = new User()
+                    {
+                        name = ad.name,
+                        email = ad.email,
+                        password = ad.password
+                    };
+                    ed.Users.Add(u);
+                    ed.SaveChanges();
+                    ModelState.Clear();
+                    ModelState.AddModelError("Success", "User Registered Successfully");
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    ModelState.AddModelError("Failed", "User Already Exists!");
+                }
+            }
+            return View();            
+        }
+        public ActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Login(AdminLogin ad)
+        {
+            if (ModelState.IsValid)
+            {
+                var data = ed.adminsignups.FirstOrDefault(x => x.email == ad.email);
+                if (data == null)
+                {
+                    ModelState.AddModelError("msg", "Email Doesn't Exists!");
+                }
+                else
+                {
+                    if (data.password == ad.password)
+                    {
+                        Session["Adminid"] = data.id;
+                        return RedirectToAction("dashboard");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("msg3", "Password is Wrong!");
+                    }
+                }
+            }
+            return View();
+        }
+        public ActionResult Enquiry()
+        {
+            var data = ed.Contacts.ToList();
+            return View(data);
+        }
     }
 }

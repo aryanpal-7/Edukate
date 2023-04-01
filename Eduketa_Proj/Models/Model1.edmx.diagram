@@ -11,6 +11,7 @@
         <EntityTypeShape EntityType="eduketaModel.forget" Width="1.5" PointX="3.375" PointY="3.75" />
         <EntityTypeShape EntityType="eduketaModel.DemoCourse" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="eduketaModel.Contact" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="eduketaModel.adminsignup" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

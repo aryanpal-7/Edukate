@@ -206,6 +206,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminLogin.cs" />
+    <Compile Include="Models\adminsignup.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdminSignupModel.cs" />
     <Compile Include="Models\bought_course.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -450,6 +455,10 @@
     <Content Include="Views\Home\Forget.cshtml" />
     <Content Include="Views\Home\Reset.cshtml" />
     <Content Include="Views\Home\Demo.cshtml" />
+    <Content Include="Views\Home\Enquiry.cshtml" />
+    <Content Include="Views\Admin\signup.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Admin\Enquiry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

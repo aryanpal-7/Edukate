@@ -32,5 +32,6 @@ namespace Eduketa_Proj.Models
         public virtual DbSet<forget> forgets { get; set; }
         public virtual DbSet<DemoCourse> DemoCourses { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
+        public virtual DbSet<adminsignup> adminsignups { get; set; }
     }
 }

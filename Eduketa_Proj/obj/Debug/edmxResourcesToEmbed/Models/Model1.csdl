@@ -18,6 +18,7 @@
     <EntitySet Name="forgets" EntityType="eduketaModel.forget" />
     <EntitySet Name="DemoCourses" EntityType="eduketaModel.DemoCourse" />
     <EntitySet Name="Contacts" EntityType="eduketaModel.Contact" />
+    <EntitySet Name="adminsignups" EntityType="eduketaModel.adminsignup" />
   </EntityContainer>
   <EntityType Name="User">
     <Key>
@@ -80,5 +81,15 @@
     <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Subject" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="userid" Type="Int32" />
+  </EntityType>
+  <EntityType Name="adminsignup">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

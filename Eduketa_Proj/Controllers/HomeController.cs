@@ -20,13 +20,11 @@ namespace Eduketa_Proj.Controllers
             var data = ed.Courses.ToList();
             return View(data);
         }
-
         public ActionResult About()
         {
 
             return View();
         }
-
         public ActionResult Contact()
         {
             return View();
@@ -40,20 +38,38 @@ namespace Eduketa_Proj.Controllers
                 {
                     ContactMail(cm.UserName, cm.email, cm.Subject, cm.Message);
                 }
+               
                 else
                 {
+                    int userid = (int)Session["userid"];
                     Contact c = new Contact()
                     {
                         UserName = cm.UserName,
                         Subject = cm.Subject,
                         email = cm.email,
-                        Message = cm.Message
+                        Message = cm.Message,
+                        userid= userid
                     };
                     ed.Contacts.Add(c);
                     ed.SaveChanges();
                 }
             }
             return View();
+        }
+
+        public ActionResult Enquiry(int? id)
+        {
+            if (Session["userid"]==null)
+            {
+                return RedirectToAction("Login");
+            }
+            if (id==null)
+            {
+                return RedirectToAction("dashboard");
+            }
+            var data = ed.Contacts.Where(x => x.userid == id).ToList();
+            
+            return View(data);
         }
         public ActionResult Courses()
         {
@@ -90,8 +106,6 @@ namespace Eduketa_Proj.Controllers
             
             return View(d);
         }
-
-
         public ActionResult register()
         {
             
@@ -122,7 +136,6 @@ namespace Eduketa_Proj.Controllers
             }           
             return View();
         }
-
         public ActionResult Login()
         {
             return View();
@@ -152,10 +165,9 @@ namespace Eduketa_Proj.Controllers
             }
             return View();
         }
-
         public ActionResult dashboard()
         {
-            Session["userid"] = 2;
+            
             if (Session["userid"] == null)
             {
                 return RedirectToAction("Login");
@@ -258,7 +270,6 @@ namespace Eduketa_Proj.Controllers
             }
             return View();
         }
-
         [HttpPost]
         public ActionResult Enroll(string razorpay_payment_id, string razorpay_order_id, string razorpay_signature)
         {
@@ -328,7 +339,6 @@ namespace Eduketa_Proj.Controllers
             }
             return View();
         }
-
         public ActionResult Reset(string id)
         {
             var data = ed.forgets.FirstOrDefault(x => x.keycode == id);
@@ -350,7 +360,6 @@ namespace Eduketa_Proj.Controllers
             ed.SaveChanges();
            return RedirectToAction("Login");
         }
-
         public ActionResult Demo()
         {
            
@@ -388,7 +397,6 @@ namespace Eduketa_Proj.Controllers
             ViewBag.Demomsg = "Demo Booked Successfully!";
             return View();
         }
-
         public ActionResult logout()
         {
             Session.Clear();
@@ -424,7 +432,6 @@ namespace Eduketa_Proj.Controllers
                 }
             }
         }
-
         public void Forgotmail(string usermail,string keycode)
         {
             string body = string.Empty;
@@ -450,7 +457,6 @@ namespace Eduketa_Proj.Controllers
                 }
             }
         }
-
         public void DemoMail(string usermail,string c_name,string date,string time)
         {
             string body = string.Empty;
@@ -481,8 +487,7 @@ namespace Eduketa_Proj.Controllers
 
 
             }
-        }
-            
+        }            
         public void ContactMail(string username,string usermail,string Subject,string enquiry)
         {
             string body = string.Empty;

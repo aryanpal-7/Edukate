@@ -16,5 +16,7 @@ namespace Eduketa_Proj.Models
         public string Subject { get; set; }
         [Required(ErrorMessage ="Message is Required.")]
         public string Message { get; set; }
+        public Nullable<int> userid { get; set; }
+
     }
 }

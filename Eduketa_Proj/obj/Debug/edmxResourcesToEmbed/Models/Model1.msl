@@ -72,10 +72,21 @@
     <EntitySetMapping Name="Contacts">
       <EntityTypeMapping TypeName="eduketaModel.Contact">
         <MappingFragment StoreEntitySet="Contact">
+          <ScalarProperty Name="userid" ColumnName="userid" />
           <ScalarProperty Name="Message" ColumnName="Message" />
           <ScalarProperty Name="Subject" ColumnName="Subject" />
           <ScalarProperty Name="email" ColumnName="email" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="adminsignups">
+      <EntityTypeMapping TypeName="eduketaModel.adminsignup">
+        <MappingFragment StoreEntitySet="adminsignup">
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
