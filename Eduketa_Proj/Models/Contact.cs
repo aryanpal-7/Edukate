@@ -20,5 +20,6 @@ namespace Eduketa_Proj.Models
         public string Subject { get; set; }
         public string Message { get; set; }
         public Nullable<int> userid { get; set; }
+        public string Resp { get; set; }
     }
 }

@@ -116,13 +116,13 @@ namespace Eduketa_Proj.Controllers
                 var existuser = ed.adminsignups.FirstOrDefault(x => x.email == ad.email);
                 if (existuser == null)
                 {
-                    User u = new User()
+                    adminsignup u = new adminsignup()
                     {
                         name = ad.name,
                         email = ad.email,
                         password = ad.password
                     };
-                    ed.Users.Add(u);
+                    ed.adminsignups.Add(u);
                     ed.SaveChanges();
                     ModelState.Clear();
                     ModelState.AddModelError("Success", "User Registered Successfully");
@@ -169,5 +169,18 @@ namespace Eduketa_Proj.Controllers
             var data = ed.Contacts.ToList();
             return View(data);
         }
+        [HttpPost]
+        public ActionResult Enquiry(string Response,int? id)
+        {
+            var data = ed.Contacts.FirstOrDefault(x=>x.Resp==null&&x.userid==id);
+            if (data.Resp == null)
+            {
+                data.Resp = Response;
+                ed.SaveChanges();
+            }
+            return RedirectToAction("Enquiry");
+            
+        }
+
     }
 }

@@ -72,6 +72,7 @@
     <EntitySetMapping Name="Contacts">
       <EntityTypeMapping TypeName="eduketaModel.Contact">
         <MappingFragment StoreEntitySet="Contact">
+          <ScalarProperty Name="Resp" ColumnName="Resp" />
           <ScalarProperty Name="userid" ColumnName="userid" />
           <ScalarProperty Name="Message" ColumnName="Message" />
           <ScalarProperty Name="Subject" ColumnName="Subject" />

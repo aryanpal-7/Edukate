@@ -9,6 +9,8 @@
 <div class="container">
     @{ int userid = (int)Session["userid"];
         var data = Model.FirstOrDefault(x => x.userid == userid);}
+    @if (data != null)
+    {
    <p class="h2">Welcome! <span class="h2 text-info">@data.UserName</span></p>
     <div class="row">
         @foreach (var x in Model)
@@ -23,12 +25,36 @@
                     <p class="card-text">
                         @x.Message
                     </p>
-
-                    <a href="#" class="btn btn-primary btn-sm">
-                        Response
-                    </a>
                     
+                        @if (x.Resp != null)
+                        {<p>
+    Response:
+    <span class="text-info"> @x.Resp</span></p>
+                        }
+                        else
+                        {
+    <span class="text-danger btn btn-block btn-outline-danger">We'll Respond Soon</span>
+                        }
+
                 </div>
             </div>
         </div>
         }
+        </div>
+    }
+            else
+            {
+                <div class="container">
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <span class="h2 text-danger">
+                                Ask Us Something <a href="/Home/Contact" class="btn btn-success">Here..!</a>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+
+</div>

@@ -6,16 +6,73 @@
 
 
 <div class="container">
-    @foreach (var x in Model)
-    {
-        <div class="card" style="width: 18rem;">
+    <div class="row">
+        @{
+            var p = Model.FirstOrDefault(y => y.Resp==null);
 
-            <div class="card-body">
-                <p class="card-title"><span class="h4">Name: </span>@x.UserName
-                <p class="card-title"><span class="h4">User Id: </span>@x.userid
-                <p class="card-title"><span class="h4">Subject: </span>@x.Subject
-                <p class="card-text">@x.Message</p>
-                <button class="btn btn-primary">Response</button>
-            </div>
-        </div>}
-</div>
+
+}
+        @if (p != null) { 
+       
+        foreach (var x in Model)
+        {if (@x.Resp == null)
+            {
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <p class="card-title"><span class="h4">Name: </span><span class="text-dark">@x.UserName</span>
+                            <p class="card-title"><span class="h4">User Id: </span><span class="text-dark">@x.userid</span>
+                            <p class="card-title"><span class="h4">Subject: </span><span class="text-dark">@x.Subject</span>
+                            <p class="card-text text-dark"><span class="h4">Message: </span>@x.Message</p>
+
+
+                            <button name="btn1" class="btn btn-primary">Response</button>
+
+                            <div name="resdiv" class="mt-3" style="display:none">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <form action="/Admin/Enquiry/@x.userid" method="post">
+                                            <input type="text" placeholder="Write Your Response" name="Response" /><br /><br />
+                                            <input type="submit" class="btn btn-success" />
+                                        </form>
+                                        <button class="btn btn-danger" name="Cancel">Cancel</button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
+             
+
+        }}
+            else
+            {
+    <div class="d-flex justify-content-center align-items-center" id="main">
+        <h1 class="mr-3 pr-3 align-top border-right inline-block align-content-center"></h1>
+        <div class="inline-block align-middle">
+            <h2 class="font-weight-normal lead" id="desc">Nothing To Respond To, Come back Soon!....</h2>
+        </div>
+    </div>
+            }
+        
+        
+    </div>
+        </div>
+<script>
+    let a = document.getElementsByName("btn1");
+    let b = document.getElementsByName("Cancel");
+        for (i = 0; i < a.length; i++) {
+            a[i].addEventListener("click", function () {
+                this.nextElementSibling.style = "Display:block;";                
+            });            
+    }
+        for (k = 0; i <= b.length; k++) {
+            b[k].addEventListener("click", function () {
+                this.parentElement.parentElement.parentElement.style = "Display:none";
+            })
+        }
+    
+</script>

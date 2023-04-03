@@ -29,6 +29,7 @@
     <Property Name="Subject" Type="varchar" MaxLength="100" />
     <Property Name="Message" Type="text" />
     <Property Name="userid" Type="int" />
+    <Property Name="Resp" Type="text" />
   </EntityType>
   <EntityType Name="Course">
     <Key>
