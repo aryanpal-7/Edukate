@@ -5,42 +5,42 @@
 }
 
 
-<div class="row justify-content-center bg-image mx-0 mb-5">
-    <div class="col-lg-6 py-5">
-        <div class="bg-white p-5 my-5">
-            @Html.ValidationSummary()
-            <h1 class="text-center mb-4">Register</h1>
-            <!-------------Add Course Form--------->
-            <form action="/Home/register" method="post">
-                <div class="form-row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <input type="text" class="form-control bg-light border-0" placeholder="Name" name="name" style="padding: 30px 20px;">
+    <div class="row justify-content-center bg-image mx-0 mb-5">
+        <div class="col-lg-6 py-5">
+            <div class="bg-white p-5 my-5">
+                @Html.ValidationSummary()
+                <h1 class="text-center mb-4">Register</h1>
+                <!-------------Add Course Form--------->
+                <form action="/Home/register" method="post">
+                    <div class="form-row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control bg-light border-0" placeholder="Name" name="name" style="padding: 30px 20px;">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <input type="text" class="form-control bg-light border-0" placeholder="Email" name="email" style="padding: 30px 20px;">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <input type="email" id="email" class="form-control bg-light border-0" placeholder="Email" name="email" style="padding: 30px 20px;">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <input type="password" class="form-control bg-light border-0" placeholder="Password" name="password" style="padding: 30px 20px;">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <input type="password" class="form-control bg-light border-0" placeholder="Password" name="password" style="padding: 30px 20px;">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <input type="password" class="form-control bg-light border-0" placeholder="Confirm Password" name="cpassword" style="padding: 30px 20px;">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <input type="password" class="form-control bg-light border-0" placeholder="Confirm Password" name="cpassword" style="padding: 30px 20px;">
+                            </div>
                         </div>
+
                     </div>
 
-                </div>
+                    <div class="col-sm-">
+                        <input type="Submit" class="btn btn-primary btn-block" value="Register" style="padding: 10px 5px;">
+                    </div>
 
-                <div class="col-sm-">
-                    <input type="Submit" class="btn btn-primary btn-block" value="Register" style="padding: 10px 5px;">
-                </div>
-
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>

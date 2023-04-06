@@ -33,5 +33,6 @@ namespace Eduketa_Proj.Models
         public virtual DbSet<DemoCourse> DemoCourses { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<adminsignup> adminsignups { get; set; }
+        public virtual DbSet<emailOTP> emailOTPs { get; set; }
     }
 }

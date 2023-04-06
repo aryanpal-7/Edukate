@@ -59,11 +59,17 @@ namespace Eduketa_Proj.Controllers
 
         public ActionResult Enquiry(int? id)
         {
+           
             if (Session["userid"]==null)
             {
                 return RedirectToAction("Login");
             }
+            int userid = (int)Session["userid"];
             if (id==null)
+            {
+                return RedirectToAction("dashboard");
+            }
+            if (userid != id)
             {
                 return RedirectToAction("dashboard");
             }
@@ -125,9 +131,17 @@ namespace Eduketa_Proj.Controllers
                     password=user.password
                     };
                     ed.Users.Add(u);
+                    int otp = new Random().Next(100000, 999999);
+                    emailOTP e = new emailOTP() { 
+                        email=user.email,
+                        OTP=otp
+                    };
+                    ed.emailOTPs.Add(e);
                     ed.SaveChanges();
+                    sendOTP(user.email, otp);
                     ModelState.Clear();
                     ModelState.AddModelError("Success", "User Registered Successfully");
+                    return RedirectToAction("OTP",new { email=user.email});
                 }
                 else
                 {
@@ -136,8 +150,46 @@ namespace Eduketa_Proj.Controllers
             }           
             return View();
         }
+        
+        public ActionResult OTP(string email)
+        {
+            if (email == null)
+            {
+                return RedirectToAction("register");
+            }
+            emailOTP e = new emailOTP()
+            {
+                email = email
+            };
+            return View(e);
+        }
+        [HttpPost]
+        public ActionResult OTP(OTPModel op)
+        {
+            var data = ed.emailOTPs.FirstOrDefault(x => x.email == op.email);
+            if (data == null)
+            {
+                ViewBag.datanull = "Email doesn't Exists";
+                return RedirectToAction("register");
+            }
+            if (data.OTP!=op.OTP) {
+                ViewBag.OTPerr = "OTP Doesn't Match";
+                return RedirectToAction("OTP", new { email = data.email });
+            }
+            if (data.OTP == op.OTP)
+            {
+                TempData["success"] = "Email Verified and User successfully registered";
+                ed.emailOTPs.Remove(data);
+                return RedirectToAction("Login");
+            }
+            return RedirectToAction("OTP", new { email = data.email });
+        }
         public ActionResult Login()
         {
+            if (TempData.ContainsKey("success"))
+            {
+                ViewBag.success = TempData["success"];
+            }
             return View();
         }
         [HttpPost]
@@ -511,8 +563,27 @@ namespace Eduketa_Proj.Controllers
                     smtp.Send(mail);
                 }                        
             }
+        }     
+
+        public void sendOTP(string usermail,int OTP)
+        {
+            using (MailMessage mail = new MailMessage())
+            {
+
+                mail.From = new MailAddress("aryanpal77788888@gmail.com");
+                mail.To.Add(usermail);
+                mail.Subject = "Email Verfication :";
+                mail.Body = "Your OTP is" +OTP;
+                mail.IsBodyHtml = true;
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "bisrprszlzquwhkz");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
+
         }
-        
     }
     public class LoginUserModel
     {
@@ -522,6 +593,11 @@ namespace Eduketa_Proj.Controllers
         public string password { get; set; }
     }
 
-
+    public class OTPModel { 
     
+        public string email { get; set; }
+
+        public int OTP { get; set; }    
+    }
+
 }

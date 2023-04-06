@@ -19,6 +19,7 @@
     <EntitySet Name="DemoCourses" EntityType="eduketaModel.DemoCourse" />
     <EntitySet Name="Contacts" EntityType="eduketaModel.Contact" />
     <EntitySet Name="adminsignups" EntityType="eduketaModel.adminsignup" />
+    <EntitySet Name="emailOTPs" EntityType="eduketaModel.emailOTP" />
   </EntityContainer>
   <EntityType Name="User">
     <Key>
@@ -92,5 +93,13 @@
     <Property Name="name" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
     <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="emailOTP">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OTP" Type="Int32" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
   </EntityType>
 </Schema>

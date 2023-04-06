@@ -65,6 +65,14 @@
     <Property Name="demodate" Type="date" />
     <Property Name="demotime" Type="time" Precision="7" />
   </EntityType>
+  <EntityType Name="emailOTP">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OTP" Type="int" />
+    <Property Name="email" Type="varchar" MaxLength="100" />
+  </EntityType>
   <EntityType Name="forget">
     <Key>
       <PropertyRef Name="id" />
@@ -90,6 +98,7 @@
     <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="coursepayment" EntityType="Self.coursepayment" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DemoCourse" EntityType="Self.DemoCourse" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="emailOTP" EntityType="Self.emailOTP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="forget" EntityType="Self.forget" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
   </EntityContainer>

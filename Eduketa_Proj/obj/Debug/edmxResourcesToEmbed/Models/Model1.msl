@@ -92,5 +92,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="emailOTPs">
+      <EntityTypeMapping TypeName="eduketaModel.emailOTP">
+        <MappingFragment StoreEntitySet="emailOTP">
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="OTP" ColumnName="OTP" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
