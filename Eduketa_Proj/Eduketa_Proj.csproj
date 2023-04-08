@@ -464,6 +464,8 @@
     <Content Include="Views\Admin\Enquiry.cshtml" />
     <Content Include="Views\Home\SendOTP.cshtml" />
     <Content Include="Views\Home\OTP.cshtml" />
+    <Content Include="Views\Home\Account.cshtml" />
+    <Content Include="Views\Home\Password.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

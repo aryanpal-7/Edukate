@@ -57,7 +57,7 @@ namespace Eduketa_Proj.Controllers
             return View();
         }
 
-        public ActionResult Enquiry(int? id)
+        public ActionResult Enquiry()
         {
            
             if (Session["userid"]==null)
@@ -65,15 +65,8 @@ namespace Eduketa_Proj.Controllers
                 return RedirectToAction("Login");
             }
             int userid = (int)Session["userid"];
-            if (id==null)
-            {
-                return RedirectToAction("dashboard");
-            }
-            if (userid != id)
-            {
-                return RedirectToAction("dashboard");
-            }
-            var data = ed.Contacts.Where(x => x.userid == id).ToList();
+            
+            var data = ed.Contacts.Where(x => x.userid == userid).ToList();
             
             return View(data);
         }
@@ -217,9 +210,83 @@ namespace Eduketa_Proj.Controllers
             }
             return View();
         }
+
+        public ActionResult Account()
+        {
+            Session["userid"] = 2;
+            if (Session["userid"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            int userid = (int)Session["userid"];
+            var data = ed.Users.FirstOrDefault(x => x.id == userid);
+
+            return View(data);
+        }
+         [HttpPost]
+        public ActionResult Account(string name)
+        {
+            if (Session["userid"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            if (name == null)
+            {
+                return RedirectToAction("Account");
+            }
+            else
+            {
+                int userid = (int)Session["userid"];
+                var data = ed.Users.FirstOrDefault(x => x.id == userid);
+                data.name = name;
+                ed.SaveChanges();
+                return RedirectToAction("Account");
+            }
+        }
+        public ActionResult Password()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Password(pwdmodel pwd) {
+
+            if (ModelState.IsValid)
+            {
+                
+                if (Session["userid"] == null)
+                {
+                    return RedirectToAction("Login");
+                }
+                if (pwd.newpwd == null || pwd.password == null)
+                {
+                    return RedirectToAction("Password");
+                }
+                int userid = (int)Session["userid"];
+                var data = ed.Users.FirstOrDefault(x => x.id == userid);
+                if (pwd.password == pwd.newpwd)
+                {
+                    ViewBag.msg1 = "Old and new Password can't be same";
+                    return View();
+                }
+                if (pwd.password == data.password)
+                {
+                    data.password = pwd.newpwd;
+                    ed.SaveChanges();
+                    return RedirectToAction("Account");
+                }
+                else
+                {
+                    ViewBag.msg = "Old Password is wrong";
+                    return View();
+                }
+            }
+
+            return View();
+
+        }
         public ActionResult dashboard()
         {
-            
+            Session["userid"] = 2;
             if (Session["userid"] == null)
             {
                 return RedirectToAction("Login");
@@ -600,4 +667,14 @@ namespace Eduketa_Proj.Controllers
         public int OTP { get; set; }    
     }
 
+    public class pwdmodel
+    {
+        [Required(ErrorMessage ="Please Enter Old Password")]
+       public string password
+        {
+            get; set;
+        }
+        [Required(ErrorMessage ="Please Enter New Password")]
+        public string newpwd { get; set; }
+    }
 }

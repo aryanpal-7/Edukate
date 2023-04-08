@@ -1,0 +1,52 @@
+﻿@model Eduketa_Proj.Models.User
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <p class="h2">Welcome!<span class="h3 text-danger"> @Model.name</span></p>
+</div>
+
+<div  class="container">
+    <div class="contact-form">
+        <form id="form1" action="/Home/Account" method="post">
+            <div class="row">
+                <div class="col-8 form-group">
+                    <input type="text" id="nametag" class="form-control border-top-0 border-right-0 border-left-0 p-0 text-dark font-weight-bold" style="background-color:white;" onblur="test2()" readonly placeholder="Your Name" value="@Model.name" name="name">
+
+                </div>
+                <div class="col-4 mt-1"><i id="penicon" class="fas fa-lg fa-pen" onclick="test()"></i></div>
+            </div>
+            <div id="divbtn" style="display:none">
+                <button class="btn btn-outline-primary py-3 px-5" type="submit">Update</button>
+                <a href="/Home/Password" class="btn py-3 px-5 btn-outline-danger">Change Password</a>
+               <a href="/Home/Account" id="btn1" onclick="test3()" class="btn py-3 px-5 btn-outline-info">Cancel</a>
+            </div>
+        </form>
+        
+    </div>
+   
+</div>
+
+<script>
+    let c = document.getElementById("form1");
+    
+    function test() {
+        let a = document.getElementById("nametag");
+        let b = document.getElementById("divbtn");
+        b.style = "Display:block";
+        a.removeAttribute("readonly");
+        c.setAttribute("onsubmit", "return true");
+        
+    }
+
+    function test2() {
+        let a = document.getElementById("nametag");
+        a.setAttribute("readonly","true");
+    }
+    function test3() {
+        let b = document.getElementById("divbtn");
+        b.style = "Display:none";
+        c.setAttribute("onsubmit", "return false");
+    }
+</script>

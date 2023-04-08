@@ -1,10 +1,17 @@
 ﻿@model Eduketa_Proj.Models.UserDashboard
-@{ ViewBag.Title = "dashboard";
+@{ ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-<div class="container"><a href="/Home/Enquiry/@Model.user.id" class="btn btn-success btn-">Your Enquiries</a></div><br />
+<div class="container">
+    <a href="/Home/Enquiry" class="btn btn-success ">Your Enquiries</a>
+
+    <a href="/Home/Account" class="btn btn-success ml-4 ">Edit Your Profile</a>
+
+
+</div>
+
 @if (Model.coursename.Count <= 0)
 {
 
