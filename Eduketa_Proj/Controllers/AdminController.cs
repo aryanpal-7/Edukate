@@ -16,9 +16,21 @@ namespace Eduketa_Proj.Controllers
         {
             return View();
         }
+        public ActionResult AddCourse()
+        {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
+            return View();
+        }
         [HttpPost]
         public ActionResult AddCourse(CourseModel course)
         {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
             if (ModelState.IsValid)
             {
                 Random rd = new Random();
@@ -40,11 +52,14 @@ namespace Eduketa_Proj.Controllers
                 ed.Courses.Add(c);
                 ed.SaveChanges();
             }
-            return RedirectToAction("ShowData");
+            return RedirectToAction("/ShowData");
         }
         public ActionResult ShowData()
         {
-            
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
             var data = ed.Courses.ToList();
 
             return View(data);
@@ -52,24 +67,34 @@ namespace Eduketa_Proj.Controllers
 
         public ActionResult Edit(int? id)
         {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
             if (id == null)
             {
-              return RedirectToAction("AddCourse");
+              return RedirectToAction("/ShowData");
             }
             var data = ed.Courses.FirstOrDefault(x=>x.id==id);
             if (data == null)
             {
-              return RedirectToAction("AddCourse");
+              return RedirectToAction("/ShowData");
             }
             return View(data);
         }
         [HttpPost]
         public ActionResult Edit(int? id,CourseModel course)
         {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
             Course c = ed.Courses.FirstOrDefault(x => x.id == id);
             HttpPostedFileBase img = course.image;
             if (img != null)
             {
+                string oldpath = Path.Combine(Server.MapPath(c.image));
+                System.IO.File.Delete(oldpath);
                 Random rnd = new Random();
                 string mypath = "~/img/Course";
                 string _FileName = Path.GetFileName(course.image.FileName);
@@ -83,34 +108,48 @@ namespace Eduketa_Proj.Controllers
             c.price = course.price;
             c.description = course.description;
             ed.SaveChanges();
-            
-            return View(c);
+
+            return RedirectToAction("/ShowData");
         }
 
         public ActionResult Delete(int? id,CourseModel course)
         {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
             if (id == null)
             {
-                return RedirectToAction("AddCourse");
+                return RedirectToAction("/ShowData");
             }
             var data = ed.Courses.FirstOrDefault(x=>x.id==id);
             if (data == null)
             {
-                return RedirectToAction("AddCourse");
+                return RedirectToAction("/ShowData");
             }
+            string oldpath = Path.Combine(Server.MapPath(data.image));
+            System.IO.File.Delete(oldpath);
             ed.Courses.Remove(data);
             ed.SaveChanges();
-           return RedirectToAction("AddCourse");
+           return RedirectToAction("/ShowData");
             
         }
 
         public ActionResult signup()
         {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
             return View();
         }
         [HttpPost]
         public ActionResult signup(AdminSignupModel ad)
         {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
             if (ModelState.IsValid)
             {
                 var existuser = ed.adminsignups.FirstOrDefault(x => x.email == ad.email);
@@ -126,7 +165,7 @@ namespace Eduketa_Proj.Controllers
                     ed.SaveChanges();
                     ModelState.Clear();
                     ModelState.AddModelError("Success", "User Registered Successfully");
-                    return RedirectToAction("Login");
+                    return RedirectToAction("/Admin/Login");
                 }
                 else
                 {
@@ -151,10 +190,11 @@ namespace Eduketa_Proj.Controllers
                 }
                 else
                 {
-                    if (data.password == ad.password)
+                    if (ad.password == data.password)
                     {
                         Session["Adminid"] = data.id;
-                        return RedirectToAction("dashboard");
+                        Session["Adminname"] = data.name;
+                        return RedirectToAction("/Index");
                     }
                     else
                     {
@@ -166,20 +206,48 @@ namespace Eduketa_Proj.Controllers
         }
         public ActionResult Enquiry()
         {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
+
             var data = ed.Contacts.ToList();
             return View(data);
         }
         [HttpPost]
         public ActionResult Enquiry(string Response,int? id)
         {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
             var data = ed.Contacts.FirstOrDefault(x=>x.Resp==null&&x.userid==id);
             if (data.Resp == null)
             {
                 data.Resp = Response;
                 ed.SaveChanges();
             }
-            return RedirectToAction("Enquiry");
-            
+            return RedirectToAction("/Enquiry");
+        }
+
+        public ActionResult UserData()
+        {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("/Index");
+            }
+            var data = ed.Users.ToList();
+            return View(data);
+
+
+        }
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.Abandon();
+            Session.RemoveAll();
+
+            return RedirectToAction("/Index");
         }
 
     }

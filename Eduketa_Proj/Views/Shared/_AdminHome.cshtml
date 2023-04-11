@@ -68,27 +68,37 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
+
                 <div class="navbar-nav mx-auto py-0">
-                    @Html.ActionLink("Home", "Index", null, new { @class = "nav-item nav-link" })
-                    @Html.ActionLink("About", "About", null, new { @class = "nav-item nav-link" })
-                    @Html.ActionLink("Courses", "Courses", null, new { @class = "nav-item nav-link" })
+                    @if (Session["Adminid"] == null)
+                    {
+                        @Html.ActionLink("Login", "/Login", null, new { @class = "nav-item nav-link" })
+                      <a href="/Home/Login" class="nav-item nav-link">User Login</a> 
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Show Data", "/ShowData", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("User Data", "/UserData", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("Add Course", "/AddCourse", null, new { @class = "nav-item nav-link" })
 
+                    }
 
+                    @if (Session["Adminid"] != null)
+                    {
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
                         <div class="dropdown-menu m-0">
-                            @Html.ActionLink("Course Details", "Details", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Our Features", "Features", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Instructors", "Team", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Testimonial", "Testimonial", null, new { @class = "dropdown-item" })
 
-                          
+                            @Html.ActionLink("Profile", "/Profile", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Add Admin", "/signup", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Logout", "/Logout", null, new { @class = "dropdown-item" })
+
+
                         </div>
-                    </div>
-                    @Html.ActionLink("Contact", "Contact", null ,new { @class = "nav-item nav-link" })
+                    </div>}
+
 
                 </div>
-                <a href="" class="btn btn-primary py-2 px-4 d-none d-lg-block">Join Us</a>
             </div>
         </nav>
     </div>
@@ -97,27 +107,11 @@
     <div class="jumbotron jumbotron-fluid position-relative overlay-bottom" style="margin-bottom: 90px;">
         <div class="container text-center my-5 py-5">
             <h1 class="text-white mt-4 mb-4">@ViewBag.Title</h1>
-            <h1 class="text-white display-1 mb-5">Education Courses</h1>
-            <div class="mx-auto mb-5" style="width: 100%; max-width: 600px;">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <button class="btn btn-outline-light bg-white text-body px-4 dropdown-toggle" type="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            Courses
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Courses 1</a>
-                            <a class="dropdown-item" href="#">Courses 2</a>
-                            <a class="dropdown-item" href="#">Courses 3</a>
-                        </div>
-                    </div>
-                    <input type="text" class="form-control border-light" style="padding: 30px 25px;" placeholder="Keyword">
-                    <div class="input-group-append">
-                        <button class="btn btn-secondary px-4 px-lg-5">Search</button>
-                    </div>
-                </div>
+           
+                   
+               
             </div>
-        </div>
+        
     </div>
     <!-- Header End -->
 

@@ -280,13 +280,10 @@ namespace Eduketa_Proj.Controllers
                     return View();
                 }
             }
-
             return View();
-
         }
         public ActionResult dashboard()
-        {
-            Session["userid"] = 2;
+        {            
             if (Session["userid"] == null)
             {
                 return RedirectToAction("Login");

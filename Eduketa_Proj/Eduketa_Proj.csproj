@@ -278,6 +278,10 @@
     <Content Include="img\courses-5.jpg" />
     <Content Include="img\courses-6.jpg" />
     <Content Include="img\courses-80x80.jpg" />
+    <Content Include="img\Course\1178565047Cpp logo.jpg" />
+    <Content Include="img\Course\1404839268C logo.jpg" />
+    <Content Include="img\Course\2054308407Python Logo.jpg" />
+    <Content Include="img\Course\803685564Java Logo.jpg" />
     <Content Include="img\feature.jpg" />
     <Content Include="img\header.jpg" />
     <Content Include="img\overlay-bottom.png" />
@@ -466,10 +470,11 @@
     <Content Include="Views\Home\OTP.cshtml" />
     <Content Include="Views\Home\Account.cshtml" />
     <Content Include="Views\Home\Password.cshtml" />
+    <Content Include="Views\Admin\AddCourse.cshtml" />
+    <Content Include="Views\Admin\UserData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="img\Course\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

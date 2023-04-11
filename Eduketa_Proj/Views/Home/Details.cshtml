@@ -21,46 +21,47 @@
                             @Model.course.description
                         </p>
                     </div>
+                    <div class="col-lg-12 mt-5 ">
+                        <div class="bg-primary mb-5 py-3">
+                            <h5 class="text-white py-3 px-4 m-0">Course Price:<i class="fas fa-rupee-sign"></i> @Model.course.price</h5>
+                            <div class="py-3 px-4">
+                                @if (Model.bought_course == null)
+                                {
+                                    <a class="btn btn-block btn-secondary py-3 px-5" href="/Home/Enroll/@Model.course.id">Enroll Now</a>}
+                                else
+                                {
+                                    <button class="btn btn-info btn-block py-3 px-5">Already Purchased!</button>
+                                }
+                            </div>
+                        </div>
 
+
+                    </div>
                     <h2 class="mb-3">Related Courses</h2>
-                    <div class="owl-carousel related-carousel position-relative" style="padding: 0 30px;">
-                        @foreach (var x in Model.courses) {
-                        <a class="courses-list-item position-relative d-block overflow-hidden mb-2" href="/Home/Details/@x.id">
-                            <img class="img-fluid" src="@Url.Content(x.image)" alt="">
-                            <div class="courses-text">
-                                <h3 class="text-center text-white px-3">
-                                   @x.name
-                                </h3>
-                                <div class="border-top w-100 mt-3">
-                                    <div class="d-flex justify-content-end p-4">
-                                        
-                                        <span class="text-white justify-content-end">
-                                            <i class="fas fa-rupee-sign"></i>@x.price
-                                            
-                                        </span>
+                    <div class="owl-carousel related-carousel  position-relative" style="padding: 0 30px;">
+                        @foreach (var x in Model.courses)
+                        {
+                            <a class="courses-list-item position-relative d-block overflow-hidden mb-2" href="/Home/Details/@x.id">
+                                <img height="500px" width="100%" src="@Url.Content(x.image)" alt="">
+                                <div class="courses-text">
+                                    <h3 class="text-center text-white px-3">
+                                        @x.name
+                                    </h3>
+                                    <div class="border-top w-100 mt-3">
+                                        <div class="d-flex justify-content-end p-4">
+
+                                            <span class="text-white justify-content-end">
+                                                <i class="fas fa-rupee-sign"></i>@x.price
+
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>}
-                        </div>
-                </div>
-
-                <div class="col-lg-4 mt-5 mt-lg-0">
-                    <div class="bg-primary mb-5 py-3">
-                        <h5 class="text-white py-3 px-4 m-0">Course Price:<i class="fas fa-rupee-sign"></i> @Model.course.price</h5>
-                        <div class="py-3 px-4">
-                           @if (Model.bought_course == null)
-                           {
-                            <a class="btn btn-block btn-secondary py-3 px-5" href="/Home/Enroll/@Model.course.id">Enroll Now</a>}
-            else
-            {
-                <button class="btn btn-info btn-block py-3 px-5">Already Purchased!</button>
-            }
-                        </div>
+                            </a>}
                     </div>
-
-                    
                 </div>
+
+              
             </div>
         </div>
     </div>

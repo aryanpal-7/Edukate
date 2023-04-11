@@ -110,7 +110,7 @@
         <div class="owl-carousel courses-carousel">
             @foreach (var x in Model) {
             <div class="courses-item position-relative">
-                <img class="img-fluid" src="@Url.Content(x.image)" alt="">
+                <img  src="@Url.Content(x.image)" height="500px" alt="">
                 <div class="courses-text">
                     <h4 class="text-center text-white px-3">@x.name</h4>
                     <div class="border-top w-100 mt-3">
