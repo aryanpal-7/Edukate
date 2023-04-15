@@ -14,9 +14,17 @@ namespace Eduketa_Proj.Controllers
 {
     public class HomeController : Controller
     {
+       
         eduketaEntities1 ed = new eduketaEntities1();
+        
+        public ActionResult NotFound()
+        {
+            Response.StatusCode = 404;
+            return View();
+        }
         public ActionResult Index()
         {
+           
             var data = ed.Courses.ToList();
             return View(data);
         }
@@ -38,7 +46,7 @@ namespace Eduketa_Proj.Controllers
                 {
                     ContactMail(cm.UserName, cm.email, cm.Subject, cm.Message);
                 }
-               
+
                 else
                 {
                     int userid = (int)Session["userid"];
@@ -48,7 +56,7 @@ namespace Eduketa_Proj.Controllers
                         Subject = cm.Subject,
                         email = cm.email,
                         Message = cm.Message,
-                        userid= userid
+                        userid = userid
                     };
                     ed.Contacts.Add(c);
                     ed.SaveChanges();
@@ -59,15 +67,15 @@ namespace Eduketa_Proj.Controllers
 
         public ActionResult Enquiry()
         {
-           
-            if (Session["userid"]==null)
+
+            if (Session["userid"] == null)
             {
                 return RedirectToAction("Login");
             }
             int userid = (int)Session["userid"];
-            
+
             var data = ed.Contacts.Where(x => x.userid == userid).ToList();
-            
+
             return View(data);
         }
         public ActionResult Courses()
@@ -75,7 +83,7 @@ namespace Eduketa_Proj.Controllers
             var data = ed.Courses.ToList();
             return View(data);
         }
-        
+
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -89,25 +97,25 @@ namespace Eduketa_Proj.Controllers
             }
             var data2 = ed.Courses.ToList();
             DetailsModel d = new DetailsModel();
-            bought_course data3=null;
+            bought_course data3 = null;
             if (Session["userid"] != null)
             {
                 int userid = (int)Session["userid"];
-                data3= ed.bought_course.FirstOrDefault(v => v.course_id == id && v.userid == userid);
+                data3 = ed.bought_course.FirstOrDefault(v => v.course_id == id && v.userid == userid);
                 d.course = data;
                 d.courses = data2;
                 d.bought_course = data3;
                 return View(d);
             }
-                d.course = data;
-                d.courses = data2;
-                d.bought_course = null;
-            
+            d.course = data;
+            d.courses = data2;
+            d.bought_course = null;
+
             return View(d);
         }
         public ActionResult register()
         {
-            
+
             return View();
         }
         [HttpPost]
@@ -115,35 +123,35 @@ namespace Eduketa_Proj.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existuser = ed.Users.FirstOrDefault(x=>x.email==user.email);
+                var existuser = ed.Users.FirstOrDefault(x => x.email == user.email);
                 if (existuser == null)
                 {
-                    User u = new User() { 
-                    name=user.name,
-                    email=user.email,
-                    password=user.password
+                    User u = new User() {
+                        name = user.name,
+                        email = user.email,
+                        password = user.password
                     };
                     ed.Users.Add(u);
                     int otp = new Random().Next(100000, 999999);
-                    emailOTP e = new emailOTP() { 
-                        email=user.email,
-                        OTP=otp
+                    emailOTP e = new emailOTP() {
+                        email = user.email,
+                        OTP = otp
                     };
                     ed.emailOTPs.Add(e);
                     ed.SaveChanges();
                     sendOTP(user.email, otp);
                     ModelState.Clear();
                     ModelState.AddModelError("Success", "User Registered Successfully");
-                    return RedirectToAction("OTP",new { email=user.email});
+                    return RedirectToAction("OTP", new { email = user.email });
                 }
                 else
                 {
-                    ModelState.AddModelError("Failed", "User Already Exists!");                    
+                    ModelState.AddModelError("Failed", "User Already Exists!");
                 }
-            }           
+            }
             return View();
         }
-        
+
         public ActionResult OTP(string email)
         {
             if (email == null)
@@ -165,7 +173,7 @@ namespace Eduketa_Proj.Controllers
                 ViewBag.datanull = "Email doesn't Exists";
                 return RedirectToAction("register");
             }
-            if (data.OTP!=op.OTP) {
+            if (data.OTP != op.OTP) {
                 ViewBag.OTPerr = "OTP Doesn't Match";
                 return RedirectToAction("OTP", new { email = data.email });
             }
@@ -190,10 +198,10 @@ namespace Eduketa_Proj.Controllers
         {
             if (ModelState.IsValid)
             {
-                var data = ed.Users.FirstOrDefault(x=>x.email==user.email);
+                var data = ed.Users.FirstOrDefault(x => x.email == user.email);
                 if (data == null)
                 {
-                    ModelState.AddModelError("msg", "Email Doesn't Exists!");                  
+                    ModelState.AddModelError("msg", "Email Doesn't Exists!");
                 }
                 else
                 {
@@ -223,7 +231,7 @@ namespace Eduketa_Proj.Controllers
 
             return View(data);
         }
-         [HttpPost]
+        [HttpPost]
         public ActionResult Account(string name)
         {
             if (Session["userid"] == null)
@@ -252,7 +260,7 @@ namespace Eduketa_Proj.Controllers
 
             if (ModelState.IsValid)
             {
-                
+
                 if (Session["userid"] == null)
                 {
                     return RedirectToAction("Login");
@@ -284,7 +292,6 @@ namespace Eduketa_Proj.Controllers
         }
         public ActionResult dashboard()
         {
-            Session["userid"] = 1;      
             if (Session["userid"] == null)
             {
                 return RedirectToAction("Login");
@@ -292,31 +299,31 @@ namespace Eduketa_Proj.Controllers
             else
             {
                 int userid = Convert.ToInt32(Session["userid"]);
-                User u = ed.Users.FirstOrDefault(x=>x.id==userid);                
-                List<bought_course> b = ed.bought_course.Where(y=>y.userid==userid).ToList();                
-                List<Course> c = new List<Course>();                
+                User u = ed.Users.FirstOrDefault(x => x.id == userid);
+                List<bought_course> b = ed.bought_course.Where(y => y.userid == userid).ToList();
+                List<Course> c = new List<Course>();
                 List<coursepayment> cp = ed.coursepayments.Where(p => p.userid == userid).ToList();
                 List<Course> c1 = new List<Course>();
-               
+
                 for (int i = 0; i < b.Count; i++)
                 {
                     int xy = (int)b[i].course_id;
                     c = ed.Courses.Where(v => v.id == xy).ToList();
-                    c1.Add(c[0]);                  
+                    c1.Add(c[0]);
                 };
                 UserDashboard ud = new UserDashboard()
                 {
-                    user=u,
-                    bought=b,
-                  course=c1,
-                   coursepayments=cp
-                   
+                    user = u,
+                    bought = b,
+                    course = c1,
+                    coursepayments = cp
+
                 };
                 return View(ud);
-            }           
+            }
         }
         public ActionResult Enroll(int? id)
-        {           
+        {
             if (id == null)
             {
                 return RedirectToAction("Login");
@@ -331,10 +338,10 @@ namespace Eduketa_Proj.Controllers
                 return RedirectToAction("Login");
             }
             int usrid = (int)Session["userid"];
-            var data1 = ed.bought_course.FirstOrDefault(x=>x.course_id==id&&x.userid==usrid);
-            if(data1 != null)
+            var data1 = ed.bought_course.FirstOrDefault(x => x.course_id == id && x.userid == usrid);
+            if (data1 != null)
             {
-                TempData["BoughtMsg"] = "You Have Already purchased "+data.name+" course";
+                TempData["BoughtMsg"] = "You Have Already purchased " + data.name + " course";
                 return RedirectToAction("dashboard");
             }
             else
@@ -342,13 +349,13 @@ namespace Eduketa_Proj.Controllers
                 string orderId;
                 int amount = (int)data.price * 100;
                 int usersid = (int)Session["userid"];
-                var check = ed.coursepayments.FirstOrDefault(x=>x.userid==usersid&&x.courseid==id&&x.status=="pending");
+                var check = ed.coursepayments.FirstOrDefault(x => x.userid == usersid && x.courseid == id && x.status == "pending");
                 if (check != null)
                 {
                     orderId = check.orderid;
-                }                
+                }
                 else
-                {               
+                {
                     RazorpayClient client = new RazorpayClient("rzp_test_BwjcHWb56BIttF", "9MKRi70sfDXbwU5a79e2XpAF");
 
                     Dictionary<string, object> options = new Dictionary<string, object>();
@@ -375,7 +382,7 @@ namespace Eduketa_Proj.Controllers
         public ActionResult Enroll(string razorpay_payment_id, string razorpay_order_id, string razorpay_signature)
         {
             var check = ed.coursepayments.FirstOrDefault(x => x.orderid == razorpay_order_id);
-           int u_id=(int)check.userid;
+            int u_id = (int)check.userid;
             int c_id = (int)check.courseid;
             string o_id = check.orderid;
             var course = ed.Courses.FirstOrDefault(x => x.id == c_id);
@@ -383,18 +390,18 @@ namespace Eduketa_Proj.Controllers
             string c_price = course.price.ToString();
             check.paymentid = razorpay_payment_id;
             check.signature = razorpay_signature;
-            check.status = "success";          
+            check.status = "success";
             ed.SaveChanges();
             bought_course b = new bought_course()
             {
                 userid = u_id,
                 course_id = c_id,
                 Purchased_Date = DateTime.Now.Date,
-                price=course.price
+                price = course.price
             };
             ed.bought_course.Add(b);
             ed.SaveChanges();
-            sendMail(user.email,o_id,course.name,c_price);
+            sendMail(user.email, o_id, course.name, c_price);
             return RedirectToAction("dashboard");
         }
         public ActionResult Forget()
@@ -408,7 +415,7 @@ namespace Eduketa_Proj.Controllers
             if (data == null)
             {
                 ViewBag.msg = "Email Not Found!";
-                return View();                
+                return View();
             }
 
             var exist = ed.forgets.FirstOrDefault(x => x.email == email);
@@ -430,9 +437,9 @@ namespace Eduketa_Proj.Controllers
 
                 forget f = new forget()
                 {
-                    email=email,
-                    UpdateOn=DateTime.Now.Date,
-                    keycode=keycode
+                    email = email,
+                    UpdateOn = DateTime.Now.Date,
+                    keycode = keycode
                 };
                 ed.forgets.Add(f);
                 ed.SaveChanges();
@@ -451,48 +458,52 @@ namespace Eduketa_Proj.Controllers
             return View(data);
         }
         [HttpPost]
-        public ActionResult Reset(string id,string password)
+        public ActionResult Reset(string id, string password)
         {
             var data = ed.forgets.FirstOrDefault(x => x.keycode == id);
             User u = ed.Users.FirstOrDefault(x => x.email == data.email);
             forget f = ed.forgets.FirstOrDefault(x => x.email == data.email);
             u.password = password;
-            ed.forgets.Remove(f);            
+            ed.forgets.Remove(f);
             ed.SaveChanges();
-           return RedirectToAction("Login");
+            return RedirectToAction("Login");
         }
         public ActionResult Demo()
         {
-           
+
             if (Session["userid"] == null)
             {
                 return RedirectToAction("Login");
-            }          
+            }
             return View();
         }
         [HttpPost]
         public ActionResult Demo(DemoModel demo)
         {
-            var data = ed.DemoCourses.FirstOrDefault(x=>x.email==demo.email&&x.course==demo.course);
+            if (Session["userid"] == null)
+            {
+                return RedirectToAction("/Home/Login");
+            }
+            var data = ed.DemoCourses.FirstOrDefault(x => x.email == demo.email && x.course == demo.course);
             if (data != null)
             {
-                ViewBag.Demomsg = "You Have already booked "+demo.course+" Demo ";
+                ViewBag.Demomsg = "You Have already booked " + demo.course + " Demo ";
                 return View();
             }
             DemoCourse dc = new DemoCourse()
             {
-                name=demo.name,
-                email=demo.email,
-                course=demo.course,
-                mobile=demo.mobile,
-                demodate=demo.demodate,
-                demotime=demo.demotime
+                name = demo.name,
+                email = demo.email,
+                course = demo.course,
+                mobile = demo.mobile,
+                demodate = demo.demodate,
+                demotime = demo.demotime
             };
-            ed.DemoCourses.Add(dc);           
+            ed.DemoCourses.Add(dc);
             ed.SaveChanges();
             DateTime ds = (DateTime)demo.demodate;
             DateTime ts = DateTime.Today.Add((TimeSpan)demo.demotime);
-            string d = ds.Date.ToString("d");           
+            string d = ds.Date.ToString("d");
             string t = ts.ToString("hh:mm tt");
             DemoMail(demo.email, demo.course, d, t);
             ViewBag.Demomsg = "Demo Booked Successfully!";
@@ -501,23 +512,23 @@ namespace Eduketa_Proj.Controllers
         public ActionResult logout()
         {
             Session.Clear();
-            Session.Abandon();          
+            Session.Abandon();
             return RedirectToAction("login");
         }
-        public void sendMail(string email,string orderid,string c_name,string price)
+        private void sendMail(string email, string orderid, string c_name, string price)
         {
             string body = string.Empty;
-            using(StreamReader sr=new StreamReader(Server.MapPath("~/js/Invoice.html")))
+            using (StreamReader sr = new StreamReader(Server.MapPath("~/js/Invoice.html")))
             {
                 body = sr.ReadToEnd();
-            }            
+            }
             body = body.Replace("{email}", email);
-            body = body.Replace("{orderid}",orderid);
-            body = body.Replace("{c_name}",c_name);
+            body = body.Replace("{orderid}", orderid);
+            body = body.Replace("{c_name}", c_name);
             body = body.Replace("{c_price}", price);
             body = body.Replace("{amount}", price);
             body = body.Replace("{p_date}", DateTime.Now.ToShortDateString());
-            using (MailMessage mail=new MailMessage())
+            using (MailMessage mail = new MailMessage())
             {
                 string msg = body;
                 mail.From = new MailAddress("aryanpal77788888@gmail.com");
@@ -533,7 +544,7 @@ namespace Eduketa_Proj.Controllers
                 }
             }
         }
-        public void Forgotmail(string usermail,string keycode)
+        private void Forgotmail(string usermail, string keycode)
         {
             string body = string.Empty;
             using (StreamReader reader = new StreamReader(Server.MapPath("~/js/forgetMail.html")))
@@ -558,19 +569,19 @@ namespace Eduketa_Proj.Controllers
                 }
             }
         }
-        public void DemoMail(string usermail,string c_name,string date,string time)
+        private void DemoMail(string usermail, string c_name, string date, string time)
         {
             string body = string.Empty;
             using (StreamReader reader = new StreamReader(Server.MapPath("~/js/DemoMail.html")))
             {
                 body = reader.ReadToEnd();
             }
-           body= body.Replace("{email}", usermail);
-           body= body.Replace("{c_name}", c_name);
-           body= body.Replace("{Date}", date);
-          body=  body.Replace("{Time}", time);
-           body= body.Replace("{p_date}", DateTime.Now.Date.ToString("d"));
-           
+            body = body.Replace("{email}", usermail);
+            body = body.Replace("{c_name}", c_name);
+            body = body.Replace("{Date}", date);
+            body = body.Replace("{Time}", time);
+            body = body.Replace("{p_date}", DateTime.Now.Date.ToString("d"));
+
             using (MailMessage mail = new MailMessage()) {
 
 
@@ -588,8 +599,8 @@ namespace Eduketa_Proj.Controllers
 
 
             }
-        }            
-        public void ContactMail(string username,string usermail,string Subject,string enquiry)
+        }
+        private void ContactMail(string username, string usermail, string Subject, string enquiry)
         {
             string body = string.Empty;
             using (StreamReader reader = new StreamReader(Server.MapPath("~/js/Enquiry.html")))
@@ -598,11 +609,11 @@ namespace Eduketa_Proj.Controllers
             }
             body = body.Replace("{Name}", username);
             body = body.Replace("{Your Enquiry}", enquiry);
-            using (MailMessage mail=new MailMessage()) {
+            using (MailMessage mail = new MailMessage()) {
 
-                mail.From =new MailAddress("aryanpal77788888@gmail.com");
+                mail.From = new MailAddress("aryanpal77788888@gmail.com");
                 mail.To.Add(usermail);
-                mail.Subject = "Your Enquiry Related :"+Subject;
+                mail.Subject = "Your Enquiry Related :" + Subject;
                 mail.Body = body;
                 mail.IsBodyHtml = true;
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
@@ -610,11 +621,11 @@ namespace Eduketa_Proj.Controllers
                     smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "bisrprszlzquwhkz");
                     smtp.EnableSsl = true;
                     smtp.Send(mail);
-                }                        
+                }
             }
-        }     
+        }
 
-        public void sendOTP(string usermail,int OTP)
+        private void sendOTP(string usermail, int OTP)
         {
             using (MailMessage mail = new MailMessage())
             {
@@ -622,7 +633,7 @@ namespace Eduketa_Proj.Controllers
                 mail.From = new MailAddress("aryanpal77788888@gmail.com");
                 mail.To.Add(usermail);
                 mail.Subject = "Email Verfication :";
-                mail.Body = "Your OTP is" +OTP;
+                mail.Body = "Your OTP is" + OTP;
                 mail.IsBodyHtml = true;
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
@@ -632,8 +643,9 @@ namespace Eduketa_Proj.Controllers
                 }
             }
 
-        }
-    }
+        } 
+   
+    } 
     public class LoginUserModel
     {
         [Required]
