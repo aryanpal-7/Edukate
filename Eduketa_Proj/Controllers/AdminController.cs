@@ -176,11 +176,19 @@ namespace Eduketa_Proj.Controllers
         }
         public ActionResult Login()
         {
+            if (Session["Adminid"] != null)
+            {
+                return RedirectToAction("/Admin/Index");
+            }
             return View();
         }
         [HttpPost]
         public ActionResult Login(AdminLogin ad)
         {
+            if (Session["Adminid"] != null)
+            {
+                return RedirectToAction("/Admin/Index");
+            }
             if (ModelState.IsValid)
             {
                 var data = ed.adminsignups.FirstOrDefault(x => x.email == ad.email);

@@ -283,7 +283,8 @@ namespace Eduketa_Proj.Controllers
             return View();
         }
         public ActionResult dashboard()
-        {            
+        {
+            Session["userid"] = 1;      
             if (Session["userid"] == null)
             {
                 return RedirectToAction("Login");
@@ -294,37 +295,21 @@ namespace Eduketa_Proj.Controllers
                 User u = ed.Users.FirstOrDefault(x=>x.id==userid);                
                 List<bought_course> b = ed.bought_course.Where(y=>y.userid==userid).ToList();                
                 List<Course> c = new List<Course>();                
-                List<coursepayment> cp = new List<coursepayment>();                
-                List<String> image = new List<string>();
-                List<String> course = new List<string>();
-                List<String> desc = new List<string>();
-                List<int> price = new List<int>();
-                List<string> order = new List<string>();
+                List<coursepayment> cp = ed.coursepayments.Where(p => p.userid == userid).ToList();
+                List<Course> c1 = new List<Course>();
+               
                 for (int i = 0; i < b.Count; i++)
                 {
                     int xy = (int)b[i].course_id;
                     c = ed.Courses.Where(v => v.id == xy).ToList();
-                    cp = ed.coursepayments.Where(p => p.userid == userid).ToList();
-                    string image1 = c[0].image;
-                    string course1 = c[0].name;
-                    string descr = c[0].description;
-                    int pric = (int)c[0].price;
-                    string order1 = cp[0].orderid;
-                    image.Add(image1);
-                    course.Add(course1);
-                    desc.Add(descr);
-                    price.Add(pric);
-                    order.Add(order1);
+                    c1.Add(c[0]);                  
                 };
                 UserDashboard ud = new UserDashboard()
                 {
                     user=u,
                     bought=b,
-                   image=image,
-                   coursename=course,
-                   Description=desc,
-                   Price=price,
-                   orderid=order
+                  course=c1,
+                   coursepayments=cp
                    
                 };
                 return View(ud);
