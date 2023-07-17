@@ -14,9 +14,9 @@ namespace Eduketa_Proj.Controllers
 {
     public class HomeController : Controller
     {
-       
+
         eduketaEntities1 ed = new eduketaEntities1();
-        
+
         public ActionResult NotFound()
         {
             Response.StatusCode = 404;
@@ -24,7 +24,7 @@ namespace Eduketa_Proj.Controllers
         }
         public ActionResult Index()
         {
-           
+
             var data = ed.Courses.ToList();
             return View(data);
         }
@@ -33,22 +33,28 @@ namespace Eduketa_Proj.Controllers
 
             return View();
         }
-        public ActionResult Contact()
+        public ActionResult Contact(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return RedirectToAction("/Courses");
+            }
+            if (Session["userid"] == null)
+            {
+                return RedirectToAction("/Login");
+            }
+            var data = ed.Sellers.FirstOrDefault(x => x.id == id);
+            return View(data);
         }
         [HttpPost]
-        public ActionResult Contact(ContactModel cm)
+        public ActionResult Contact(ContactModel cm,int id)
         {
-            if (ModelState.IsValid)
+            if (Session["userid"] == null)
             {
-                if (Session["userid"] == null)
-                {
-                    ContactMail(cm.UserName, cm.email, cm.Subject, cm.Message);
-                }
-
-                else
-                {
+                return RedirectToAction("/Login");
+            }
+            if (ModelState.IsValid)
+            {        
                     int userid = (int)Session["userid"];
                     Contact c = new Contact()
                     {
@@ -56,11 +62,12 @@ namespace Eduketa_Proj.Controllers
                         Subject = cm.Subject,
                         email = cm.email,
                         Message = cm.Message,
-                        userid = userid
+                        userid = userid,
+                        Sellerid=id
                     };
                     ed.Contacts.Add(c);
                     ed.SaveChanges();
-                }
+                
             }
             return View();
         }
@@ -468,53 +475,102 @@ namespace Eduketa_Proj.Controllers
             ed.SaveChanges();
             return RedirectToAction("Login");
         }
-        public ActionResult Demo()
-        {
-
-            if (Session["userid"] == null)
-            {
-                return RedirectToAction("Login");
-            }
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Demo(DemoModel demo)
-        {
-            if (Session["userid"] == null)
-            {
-                return RedirectToAction("/Home/Login");
-            }
-            var data = ed.DemoCourses.FirstOrDefault(x => x.email == demo.email && x.course == demo.course);
-            if (data != null)
-            {
-                ViewBag.Demomsg = "You Have already booked " + demo.course + " Demo ";
-                return View();
-            }
-            DemoCourse dc = new DemoCourse()
-            {
-                name = demo.name,
-                email = demo.email,
-                course = demo.course,
-                mobile = demo.mobile,
-                demodate = demo.demodate,
-                demotime = demo.demotime
-            };
-            ed.DemoCourses.Add(dc);
-            ed.SaveChanges();
-            DateTime ds = (DateTime)demo.demodate;
-            DateTime ts = DateTime.Today.Add((TimeSpan)demo.demotime);
-            string d = ds.Date.ToString("d");
-            string t = ts.ToString("hh:mm tt");
-            DemoMail(demo.email, demo.course, d, t);
-            ViewBag.Demomsg = "Demo Booked Successfully!";
-            return View();
-        }
+    
         public ActionResult logout()
         {
             Session.Clear();
             Session.Abandon();
             return RedirectToAction("login");
         }
+
+        public ActionResult Seller()
+        {
+            return View();
+        }
+
+        public ActionResult SellerSignup() {
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SellerDetails(Seller_Model seller_model)
+        {
+            if (ModelState.IsValid)
+            {
+                Seller sell = ed.Sellers.FirstOrDefault(x => x.email_add == seller_model.email_add);
+                if (sell != null)
+                {
+                    ModelState.AddModelError("exists", "User already exists");
+                    return View();
+                }
+                Seller s = new Seller()
+                {
+                    First_name = seller_model.first_name,
+                    Last_name = seller_model.last_name,
+                    email_add = seller_model.email_add,
+                    mobile_no = seller_model.mobile_no,
+                    social_prof = seller_model.social_profile,
+                    company_name=seller_model.company_name
+                };
+                ed.Sellers.Add(s);
+                ed.SaveChanges();
+                Seller sd = ed.Sellers.FirstOrDefault(y => y.email_add == seller_model.email_add);
+                Random rnd = new Random();
+                int OTP = rnd.Next(111111, 999999);
+                seller_verify s1 = new seller_verify() {
+                    OTP = OTP,
+                    email_add = seller_model.email_add,
+                    Modify_Date = DateTime.Now.Date
+                };
+                ed.seller_verify.Add(s1);
+                ed.SaveChanges();
+                SellerOTP(seller_model.email_add, OTP);
+                return RedirectToAction("Seller_Verification", new { id = sd.id });
+            }
+            return RedirectToAction("SellerSignup");
+        }
+
+        public ActionResult Seller_Verification(int id) {
+            var Sellers_data = ed.Sellers.FirstOrDefault(x => x.id == id);
+            return View(Sellers_data);
+        }
+        [HttpPost]
+        public ActionResult Seller_Verifications(int? OTP, string email)
+        {
+            var data2 = ed.Sellers.FirstOrDefault(y=>y.email_add==email);
+            if (OTP == null)
+            {
+                ModelState.AddModelError("msg", "Enter The OTP");
+                return View();
+            }
+            if (email == null)
+            {
+                return RedirectToAction("SellerSignup");
+            }
+            var data = ed.seller_verify.FirstOrDefault(x => x.email_add == email);
+            if (OTP == data.OTP)
+            {
+                ed.seller_verify.Remove(data);
+                ed.SaveChanges();
+                return RedirectToAction("Seller_Password",new { data2.id});
+            }
+            return View();
+        }
+
+        public ActionResult Seller_Password(int id)
+        {
+            var data = ed.Sellers.FirstOrDefault(x => x.id == id);
+            return View(data);
+        }
+        [HttpPost]
+        public ActionResult SellerPassword(Seller_Pwd sel_pwd,int s_id)
+        {
+            var data = ed.Sellers.FirstOrDefault(x => x.id == s_id);
+            data.password = sel_pwd.password;
+            ed.SaveChanges();             
+            return RedirectToAction("../Admin/Login");
+        }
+        /* Methods for OTP/Emails */
         private void sendMail(string email, string orderid, string c_name, string price)
         {
             string body = string.Empty;
@@ -538,7 +594,7 @@ namespace Eduketa_Proj.Controllers
                 mail.IsBodyHtml = true;
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
-                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "bisrprszlzquwhkz");
+                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "jyzfmazdjnwnabjh");
                     smtp.EnableSsl = true;
                     smtp.Send(mail);
                 }
@@ -563,7 +619,7 @@ namespace Eduketa_Proj.Controllers
                 mail.IsBodyHtml = true;
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
-                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "bisrprszlzquwhkz");
+                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "jyzfmazdjnwnabjh");
                     smtp.EnableSsl = true;
                     smtp.Send(mail);
                 }
@@ -592,7 +648,7 @@ namespace Eduketa_Proj.Controllers
                 mail.IsBodyHtml = true;
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
-                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "bisrprszlzquwhkz");
+                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "jyzfmazdjnwnabjh");
                     smtp.EnableSsl = true;
                     smtp.Send(mail);
                 }
@@ -600,31 +656,7 @@ namespace Eduketa_Proj.Controllers
 
             }
         }
-        private void ContactMail(string username, string usermail, string Subject, string enquiry)
-        {
-            string body = string.Empty;
-            using (StreamReader reader = new StreamReader(Server.MapPath("~/js/Enquiry.html")))
-            {
-                body = reader.ReadToEnd();
-            }
-            body = body.Replace("{Name}", username);
-            body = body.Replace("{Your Enquiry}", enquiry);
-            using (MailMessage mail = new MailMessage()) {
-
-                mail.From = new MailAddress("aryanpal77788888@gmail.com");
-                mail.To.Add(usermail);
-                mail.Subject = "Your Enquiry Related :" + Subject;
-                mail.Body = body;
-                mail.IsBodyHtml = true;
-                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
-                {
-                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "bisrprszlzquwhkz");
-                    smtp.EnableSsl = true;
-                    smtp.Send(mail);
-                }
-            }
-        }
-
+      
         private void sendOTP(string usermail, int OTP)
         {
             using (MailMessage mail = new MailMessage())
@@ -637,15 +669,32 @@ namespace Eduketa_Proj.Controllers
                 mail.IsBodyHtml = true;
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
-                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "bisrprszlzquwhkz");
+                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "jyzfmazdjnwnabjh");
                     smtp.EnableSsl = true;
                     smtp.Send(mail);
                 }
             }
 
-        } 
-   
-    } 
+        }
+
+        private void SellerOTP(string email, int OTP)
+        {
+            using (MailMessage mail = new MailMessage()) {
+                mail.From = new MailAddress("aryanpal77788888@gmail.com");
+                mail.To.Add(email);
+                mail.Subject = "Email Verification";
+                mail.Body = "Your OTP is" + OTP;
+                mail.IsBodyHtml = true;
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential("aryanpal77788888@gmail.com", "jyzfmazdjnwnabjh");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
+        }
+
+    }
     public class LoginUserModel
     {
         [Required]
@@ -654,21 +703,46 @@ namespace Eduketa_Proj.Controllers
         public string password { get; set; }
     }
 
-    public class OTPModel { 
-    
+    public class OTPModel {
+
         public string email { get; set; }
 
-        public int OTP { get; set; }    
+        public int OTP { get; set; }
     }
 
     public class pwdmodel
     {
-        [Required(ErrorMessage ="Please Enter Old Password")]
-       public string password
+        [Required(ErrorMessage = "Please Enter Old Password")]
+        public string password
         {
             get; set;
         }
-        [Required(ErrorMessage ="Please Enter New Password")]
+        [Required(ErrorMessage = "Please Enter New Password")]
         public string newpwd { get; set; }
     }
+
+    public class Seller_Model {
+
+        public string first_name { get; set; }
+
+        public string last_name { get; set; }
+
+        public string email_add { get; set; }
+
+        public string mobile_no { get; set; }
+
+        public string social_profile { get; set; }
+
+        public string company_name { get; set; }
+
+
+    }
+
+    public class Seller_Pwd{
+
+        public string password { get; set; }
+
+        public string confirm_pwd { get; set; }
+        }
+
 }

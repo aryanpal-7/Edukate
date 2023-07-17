@@ -41,13 +41,15 @@ namespace Eduketa_Proj.Controllers
                 
                 course.image.SaveAs(path);
 
-                
+
                 Course c = new Course()
                 {
                     name = course.name,
                     price = course.price,
-                    image=mypath+"/"+Filename,
-                    description = course.description
+                    image = mypath + "/" + Filename,
+                    description = course.description,
+                    Seller = Session["Admin_Company_Name"].ToString(), 
+                    SellerId= (int)Session["Adminid"]
                 };
                 ed.Courses.Add(c);
                 ed.SaveChanges();
@@ -55,12 +57,14 @@ namespace Eduketa_Proj.Controllers
             return RedirectToAction("/ShowData");
         }
         public ActionResult ShowData()
-        {
+        {           
             if (Session["Adminid"] == null)
             {
                 return RedirectToAction("/Index");
             }
-            var data = ed.Courses.ToList();
+            string _Company = Session["Admin_Company_Name"].ToString();
+            int adminid = (int)Session["Adminid"];
+            var data = ed.Courses.Where(x => x.Seller == _Company&&x.SellerId==adminid).ToList();
 
             return View(data);
         }
@@ -87,7 +91,7 @@ namespace Eduketa_Proj.Controllers
         {
             if (Session["Adminid"] == null)
             {
-                return RedirectToAction("/Index");
+                return RedirectToAction("../Admin/Index");
             }
             Course c = ed.Courses.FirstOrDefault(x => x.id == id);
             HttpPostedFileBase img = course.image;
@@ -109,76 +113,36 @@ namespace Eduketa_Proj.Controllers
             c.description = course.description;
             ed.SaveChanges();
 
-            return RedirectToAction("/ShowData");
+            return RedirectToAction("../Admin/ShowData");
         }
 
         public ActionResult Delete(int? id,CourseModel course)
         {
             if (Session["Adminid"] == null)
             {
-                return RedirectToAction("/Index");
+                return RedirectToAction("../Admin/Index");
             }
             if (id == null)
             {
-                return RedirectToAction("/ShowData");
+                return RedirectToAction("../Admin/ShowData");
             }
             var data = ed.Courses.FirstOrDefault(x=>x.id==id);
             if (data == null)
             {
-                return RedirectToAction("/ShowData");
+                return RedirectToAction("../Admin/ShowData");
             }
             string oldpath = Path.Combine(Server.MapPath(data.image));
             System.IO.File.Delete(oldpath);
             ed.Courses.Remove(data);
             ed.SaveChanges();
-           return RedirectToAction("/ShowData");
+           return RedirectToAction("../Admin/ShowData");
             
-        }
-
-        public ActionResult signup()
-        {
-            if (Session["Adminid"] == null)
-            {
-                return RedirectToAction("/Index");
-            }
-            return View();
-        }
-        [HttpPost]
-        public ActionResult signup(AdminSignupModel ad)
-        {
-            if (Session["Adminid"] == null)
-            {
-                return RedirectToAction("/Index");
-            }
-            if (ModelState.IsValid)
-            {
-                var existuser = ed.adminsignups.FirstOrDefault(x => x.email == ad.email);
-                if (existuser == null)
-                {
-                    adminsignup u = new adminsignup()
-                    {
-                        name = ad.name,
-                        email = ad.email,
-                        password = ad.password
-                    };
-                    ed.adminsignups.Add(u);
-                    ed.SaveChanges();
-                    ModelState.Clear();
-                    ModelState.AddModelError("Success", "User Registered Successfully");
-                    return RedirectToAction("/Admin/Login");
-                }
-                else
-                {
-                    ModelState.AddModelError("Failed", "User Already Exists!");
-                }
-            }
-            return View();            
-        }
+        }      
         public ActionResult Login()
         {
             if (Session["Adminid"] != null)
             {
-                return RedirectToAction("/Admin/Index");
+                return RedirectToAction("../Admin/Index");
             }
             return View();
         }
@@ -187,11 +151,11 @@ namespace Eduketa_Proj.Controllers
         {
             if (Session["Adminid"] != null)
             {
-                return RedirectToAction("/Admin/Index");
+                return RedirectToAction("../Admin/Index");
             }
             if (ModelState.IsValid)
             {
-                var data = ed.adminsignups.FirstOrDefault(x => x.email == ad.email);
+                var data = ed.Sellers.FirstOrDefault(x => x.email_add == ad.email);
                 if (data == null)
                 {
                     ModelState.AddModelError("msg", "Email Doesn't Exists!");
@@ -201,8 +165,9 @@ namespace Eduketa_Proj.Controllers
                     if (ad.password == data.password)
                     {
                         Session["Adminid"] = data.id;
-                        Session["Adminname"] = data.name;
-                        return RedirectToAction("/Index");
+                        Session["Adminname"] = data.First_name;
+                        Session["Admin_Company_Name"] = data.company_name;
+                        return RedirectToAction("../Admin/Index");
                     }
                     else
                     {
@@ -212,14 +177,24 @@ namespace Eduketa_Proj.Controllers
             }
             return View();
         }
+        public ActionResult Admin_Dashboard()
+        {
+            if (Session["Adminid"] == null)
+            {
+                return RedirectToAction("../Admin/Login");
+            }
+            int id = (int)Session["Adminid"];
+            var data = ed.Sellers.FirstOrDefault(x => x.id == id);
+            return View(data);
+        }
         public ActionResult Enquiry()
         {
             if (Session["Adminid"] == null)
             {
-                return RedirectToAction("/Index");
+                return RedirectToAction("../Admin/Index");
             }
-
-            var data = ed.Contacts.ToList();
+            int seller_id = (int)Session["Adminid"];
+            var data = ed.Contacts.Where(x=>x.Sellerid==seller_id).ToList();
             return View(data);
         }
         [HttpPost]
@@ -227,27 +202,64 @@ namespace Eduketa_Proj.Controllers
         {
             if (Session["Adminid"] == null)
             {
-                return RedirectToAction("/Index");
+                return RedirectToAction("../Admin/Index");
             }
-            var data = ed.Contacts.FirstOrDefault(x=>x.Resp==null&&x.userid==id);
+            int seller_id = (int)Session["Adminid"];
+            var data = ed.Contacts.FirstOrDefault(x=>x.Resp==null&&x.userid==id&&x.Sellerid==seller_id);
             if (data.Resp == null)
             {
                 data.Resp = Response;
                 ed.SaveChanges();
             }
-            return RedirectToAction("/Enquiry");
+            return RedirectToAction("../Admin/Enquiry");
         }
 
-        public ActionResult UserData()
+        public ActionResult Forgot_Password()
         {
-            if (Session["Adminid"] == null)
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Forgot_Password(Admin_pwd admin)
+        {
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("/Index");
+                var data = ed.Sellers.FirstOrDefault(x => x.email_add == admin.email);
+                if (data == null)
+                {
+                    ModelState.AddModelError("!Exist", "This Email doesn't exists.");
+                    return View();
+                }
+                return RedirectToAction("../Admin/Reset_Password",new { id=data.id});
             }
-            var data = ed.Users.ToList();
+            return View();
+        }
+        public ActionResult Reset_Password(int? id)
+        {
+            if (id == null)
+            {
+                ModelState.AddModelError("tryAgain", "Something went wrong. Please Try Again!");
+                return RedirectToAction("../Admin/Forgot_Password");
+            }
+            var data = ed.Sellers.FirstOrDefault(x => x.id == id);
             return View(data);
-
-
+        }
+       [HttpPost]
+       public ActionResult Reset_Password(Admin_password admin,int? id)
+        {
+            if (ModelState.IsValid)
+            {
+                var data = ed.Sellers.FirstOrDefault(x => x.id == id);
+                if (data == null)
+                {
+                    ModelState.AddModelError("tryAgain", "Something went wrong. Please Try Again!");
+                    return RedirectToAction("../Admin/Forgot_Password");
+                }
+                data.password = admin.pwd;
+                ed.SaveChanges();              
+                return RedirectToAction("../Admin/Login");
+            }
+            return View();
         }
         public ActionResult Logout()
         {
@@ -255,7 +267,7 @@ namespace Eduketa_Proj.Controllers
             Session.Abandon();
             Session.RemoveAll();
 
-            return RedirectToAction("/Index");
+            return RedirectToAction("../Admin/Index");
         }
 
     }

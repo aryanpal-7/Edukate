@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Seller Signup";
+}
+
+    <div class="container">
+        <h1>Registration Form</h1>
+        <form action="/Home/SellerDetails" method="post">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" name="first_name" placeholder="Enter your first name">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Enter your last name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email_add" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="mobileNumber">Mobile Number</label>
+                <input type="tel" class="form-control" id="mobileNumber" name="mobile_no" placeholder="Enter your mobile number">
+            </div>
+            <div class="form-group">
+                <label for="socialProfile">Social Profile</label>
+                <input type="text" class="form-control" id="socialProfile" name="social_profile" placeholder="Enter your social profile link">
+            </div>
+            <div class="form-group">
+                <label for="companyname">Company Name</label>
+                <input type="text" class="form-control" id="companyname" name="company_name" placeholder="Enter Your Company Name"/>
+            </div>
+            <div class="form-group">
+                <button type="submit"  class=" btn btn-primary">Signup</button><span class="px-3">Already a Seller?<a href="/Admin/Login" class="alert-link">Login here</a></span>
+            </div>
+        </form>
+    </div>

@@ -30,9 +30,9 @@ namespace Eduketa_Proj.Models
         public virtual DbSet<bought_course> bought_course { get; set; }
         public virtual DbSet<coursepayment> coursepayments { get; set; }
         public virtual DbSet<forget> forgets { get; set; }
-        public virtual DbSet<DemoCourse> DemoCourses { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
-        public virtual DbSet<adminsignup> adminsignups { get; set; }
         public virtual DbSet<emailOTP> emailOTPs { get; set; }
+        public virtual DbSet<Seller> Sellers { get; set; }
+        public virtual DbSet<seller_verify> seller_verify { get; set; }
     }
 }

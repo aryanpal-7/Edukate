@@ -12,11 +12,11 @@ namespace Eduketa_Proj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class adminsignup
+    public partial class seller_verify
     {
         public int id { get; set; }
-        public string name { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
+        public Nullable<int> OTP { get; set; }
+        public string email_add { get; set; }
+        public Nullable<System.DateTime> Modify_Date { get; set; }
     }
 }

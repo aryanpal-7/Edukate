@@ -1,4 +1,4 @@
-﻿
+﻿@model Eduketa_Proj.Models.Seller
 @{
     ViewBag.Title = "Contact";
 }
@@ -43,10 +43,10 @@
                 <div class="col-lg-7">
                     <div class="section-title position-relative mb-4">
                         <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Need Help?</h6>
-                        <h1 class="display-4">Send Us A Message</h1>
+                        <h1 class="display-4">Send Seller A Message</h1>
                     </div>
                     <div class="contact-form">
-                        <form action="/Home/Contact" method="post">
+                        <form action="/Home/Contact/@Model.id" method="post">
                             <div class="row">
                                 <div class="col-6 form-group">
                                     <input type="text" class="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Your Name" name="UserName" >@Html.ValidationMessage("UserName", new { @class="text-danger" })

@@ -207,10 +207,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminLogin.cs" />
-    <Compile Include="Models\adminsignup.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AdminSignupModel.cs" />
+    <Compile Include="Models\Admin_pwd.cs" />
     <Compile Include="Models\bought_course.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -225,10 +222,6 @@
     <Compile Include="Models\coursepayment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DemoCourse.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DemoModel.cs" />
     <Compile Include="Models\DetailsModel.cs" />
     <Compile Include="Models\emailOTP.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -251,6 +244,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Seller.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\seller_verify.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -270,6 +269,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="img\about.jpg" />
+    <Content Include="img\Admin image\blank_profile.png" />
     <Content Include="img\bg-image.jpg" />
     <Content Include="img\courses-1.jpg" />
     <Content Include="img\courses-2.jpg" />
@@ -461,7 +461,6 @@
     <Content Include="Views\Home\Enroll.cshtml" />
     <Content Include="Views\Home\Forget.cshtml" />
     <Content Include="Views\Home\Reset.cshtml" />
-    <Content Include="Views\Home\Demo.cshtml" />
     <Content Include="Views\Home\Enquiry.cshtml" />
     <Content Include="Views\Admin\signup.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
@@ -471,8 +470,15 @@
     <Content Include="Views\Home\Account.cshtml" />
     <Content Include="Views\Home\Password.cshtml" />
     <Content Include="Views\Admin\AddCourse.cshtml" />
-    <Content Include="Views\Admin\UserData.cshtml" />
     <Content Include="Views\Home\NotFound.cshtml" />
+    <Content Include="Views\Home\Seller.cshtml" />
+    <Content Include="Views\Home\SellerSignup.cshtml" />
+    <Content Include="Views\Home\Seller_Verification.cshtml" />
+    <Content Include="Views\Home\Seller_Password.cshtml" />
+    <Content Include="Views\Admin\Forgot_Password.cshtml" />
+    <Content Include="Views\Admin\Reset_Password.cshtml" />
+    <Content Include="Views\Shared\_AdminDashboard.cshtml" />
+    <Content Include="Views\Admin\Admin_Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

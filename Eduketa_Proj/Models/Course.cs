@@ -19,5 +19,7 @@ namespace Eduketa_Proj.Models
         public Nullable<int> price { get; set; }
         public string image { get; set; }
         public string description { get; set; }
+        public string Seller { get; set; }
+        public Nullable<int> SellerId { get; set; }
     }
 }

@@ -12,14 +12,15 @@ namespace Eduketa_Proj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DemoCourse
+    public partial class Seller
     {
         public int id { get; set; }
-        public string name { get; set; }
-        public string mobile { get; set; }
-        public string email { get; set; }
-        public string course { get; set; }
-        public Nullable<System.DateTime> demodate { get; set; }
-        public Nullable<System.TimeSpan> demotime { get; set; }
+        public string First_name { get; set; }
+        public string Last_name { get; set; }
+        public string email_add { get; set; }
+        public string mobile_no { get; set; }
+        public string social_prof { get; set; }
+        public string password { get; set; }
+        public string company_name { get; set; }
     }
 }

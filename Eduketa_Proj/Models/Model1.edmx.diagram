@@ -9,10 +9,10 @@
         <EntityTypeShape EntityType="eduketaModel.bought_course" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="eduketaModel.coursepayment" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="eduketaModel.forget" Width="1.5" PointX="3.375" PointY="3.75" />
-        <EntityTypeShape EntityType="eduketaModel.DemoCourse" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="eduketaModel.Contact" Width="1.5" PointX="5.375" PointY="4.75" />
-        <EntityTypeShape EntityType="eduketaModel.adminsignup" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="eduketaModel.emailOTP" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="eduketaModel.Seller" Width="1.5" PointX="8.25" PointY="3" />
+        <EntityTypeShape EntityType="eduketaModel.seller_verify" Width="1.5" PointX="7.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

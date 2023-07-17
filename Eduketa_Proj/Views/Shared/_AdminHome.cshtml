@@ -77,9 +77,10 @@
                     }
                     else
                     {
-                        @Html.ActionLink("Show Data", "/ShowData", null, new { @class = "nav-item nav-link" })
-                        @Html.ActionLink("User Data", "/UserData", null, new { @class = "nav-item nav-link" })
-                        @Html.ActionLink("Add Course", "/AddCourse", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("Home", "../Admin/Index", null, new { @class="nav-item nav-link" })
+                        @Html.ActionLink("Show Data", "../Admin/ShowData", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("User Data", "../Admin/UserData", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("Add Course", "../Admin/AddCourse", null, new { @class = "nav-item nav-link" })
 
                     }
 
@@ -89,8 +90,8 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
                         <div class="dropdown-menu m-0">
 
-                            @Html.ActionLink("Profile", "/Profile", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Add Admin", "/signup", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Profile", "../Admin/Admin_Dashboard", null, new { @class = "dropdown-item" })
+                          
                             @Html.ActionLink("Logout", "/Logout", null, new { @class = "dropdown-item" })
 
 

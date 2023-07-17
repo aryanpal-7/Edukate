@@ -1,4 +1,4 @@
-﻿
+﻿@model Eduketa_Proj.Models.UserModel
 @{
     ViewBag.Title = "register";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,29 +8,29 @@
     <div class="row justify-content-center bg-image mx-0 mb-5">
         <div class="col-lg-6 py-5">
             <div class="bg-white p-5 my-5">
-                @Html.ValidationSummary()
+                @Html.ValidationMessage("Failed",new { @class="text-danger font-weight-bold"})
                 <h1 class="text-center mb-4">Register</h1>
                 <!-------------Add Course Form--------->
                 <form action="/Home/register" method="post">
                     <div class="form-row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <input type="text" class="form-control bg-light border-0" placeholder="Name" name="name" style="padding: 30px 20px;">
+                                <input type="text" class="form-control bg-light border-0" placeholder="Name" name="name" style="padding: 30px 20px;">@Html.ValidationMessageFor(m => m.name, "", new { @class="text-danger"})
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <input type="email" id="email" class="form-control bg-light border-0" placeholder="Email" name="email" style="padding: 30px 20px;">
+                                <input type="email" id="email" class="form-control bg-light border-0" placeholder="Email" name="email" style="padding: 30px 20px;">@Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <input type="password" class="form-control bg-light border-0" placeholder="Password" name="password" style="padding: 30px 20px;">
+                                <input type="password" class="form-control bg-light border-0" placeholder="Password" name="password" style="padding: 30px 20px;">@Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <input type="password" class="form-control bg-light border-0" placeholder="Confirm Password" name="cpassword" style="padding: 30px 20px;">
+                                <input type="password" class="form-control bg-light border-0" placeholder="Confirm Password" name="cpassword" style="padding: 30px 20px;" /> @Html.ValidationMessageFor(m => m.cpassword, "", new { @class = "text-danger" })
                             </div>
                         </div>
 

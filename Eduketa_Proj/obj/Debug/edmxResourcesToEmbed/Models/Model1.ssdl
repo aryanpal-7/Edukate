@@ -1,14 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="eduketaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityType Name="adminsignup">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="nvarchar" MaxLength="40" />
-    <Property Name="email" Type="nvarchar" MaxLength="100" />
-    <Property Name="password" Type="nvarchar" MaxLength="20" />
-  </EntityType>
   <EntityType Name="bought_course">
     <Key>
       <PropertyRef Name="id" />
@@ -30,6 +21,7 @@
     <Property Name="Message" Type="text" />
     <Property Name="userid" Type="int" />
     <Property Name="Resp" Type="text" />
+    <Property Name="Sellerid" Type="int" />
   </EntityType>
   <EntityType Name="Course">
     <Key>
@@ -40,6 +32,8 @@
     <Property Name="price" Type="int" />
     <Property Name="image" Type="text" />
     <Property Name="description" Type="text" />
+    <Property Name="Seller" Type="nvarchar" MaxLength="100" />
+    <Property Name="SellerId" Type="int" />
   </EntityType>
   <EntityType Name="coursepayment">
     <Key>
@@ -52,18 +46,6 @@
     <Property Name="status" Type="varchar" MaxLength="15" />
     <Property Name="signature" Type="varchar" MaxLength="200" />
     <Property Name="paymentid" Type="varchar" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="DemoCourse">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="varchar" MaxLength="40" />
-    <Property Name="mobile" Type="varchar" MaxLength="15" />
-    <Property Name="email" Type="varchar" MaxLength="50" />
-    <Property Name="course" Type="varchar" MaxLength="40" />
-    <Property Name="demodate" Type="date" />
-    <Property Name="demotime" Type="time" Precision="7" />
   </EntityType>
   <EntityType Name="emailOTP">
     <Key>
@@ -82,24 +64,46 @@
     <Property Name="email" Type="varchar" MaxLength="100" />
     <Property Name="UpdateOn" Type="date" />
   </EntityType>
+  <EntityType Name="Seller">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="First_name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Last_name" Type="nvarchar" MaxLength="100" />
+    <Property Name="email_add" Type="nvarchar" MaxLength="100" />
+    <Property Name="mobile_no" Type="nvarchar" MaxLength="14" />
+    <Property Name="social_prof" Type="text" />
+    <Property Name="password" Type="varchar" MaxLength="18" />
+    <Property Name="company_name" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="seller_verify">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OTP" Type="int" />
+    <Property Name="email_add" Type="nvarchar" MaxLength="100" />
+    <Property Name="Modify_Date" Type="date" />
+  </EntityType>
   <EntityType Name="Users">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="nvarchar(max)" />
+    <Property Name="name" Type="varchar" MaxLength="101" />
     <Property Name="email" Type="nvarchar(max)" />
-    <Property Name="password" Type="varchar(max)" />
+    <Property Name="password" Type="varchar" MaxLength="18" />
   </EntityType>
   <EntityContainer Name="eduketaModelStoreContainer">
-    <EntitySet Name="adminsignup" EntityType="Self.adminsignup" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="bought_course" EntityType="Self.bought_course" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="coursepayment" EntityType="Self.coursepayment" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="DemoCourse" EntityType="Self.DemoCourse" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="emailOTP" EntityType="Self.emailOTP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="forget" EntityType="Self.forget" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="seller_verify" EntityType="Self.seller_verify" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

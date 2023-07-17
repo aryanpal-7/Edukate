@@ -4,6 +4,8 @@
     <EntitySetMapping Name="Courses">
       <EntityTypeMapping TypeName="eduketaModel.Course">
         <MappingFragment StoreEntitySet="Course">
+          <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+          <ScalarProperty Name="Seller" ColumnName="Seller" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="price" ColumnName="price" />
@@ -56,22 +58,10 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="DemoCourses">
-      <EntityTypeMapping TypeName="eduketaModel.DemoCourse">
-        <MappingFragment StoreEntitySet="DemoCourse">
-          <ScalarProperty Name="demotime" ColumnName="demotime" />
-          <ScalarProperty Name="demodate" ColumnName="demodate" />
-          <ScalarProperty Name="course" ColumnName="course" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="mobile" ColumnName="mobile" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Contacts">
       <EntityTypeMapping TypeName="eduketaModel.Contact">
         <MappingFragment StoreEntitySet="Contact">
+          <ScalarProperty Name="Sellerid" ColumnName="Sellerid" />
           <ScalarProperty Name="Resp" ColumnName="Resp" />
           <ScalarProperty Name="userid" ColumnName="userid" />
           <ScalarProperty Name="Message" ColumnName="Message" />
@@ -82,20 +72,34 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="adminsignups">
-      <EntityTypeMapping TypeName="eduketaModel.adminsignup">
-        <MappingFragment StoreEntitySet="adminsignup">
-          <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="emailOTPs">
       <EntityTypeMapping TypeName="eduketaModel.emailOTP">
         <MappingFragment StoreEntitySet="emailOTP">
           <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="OTP" ColumnName="OTP" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sellers">
+      <EntityTypeMapping TypeName="eduketaModel.Seller">
+        <MappingFragment StoreEntitySet="Seller">
+          <ScalarProperty Name="company_name" ColumnName="company_name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="social_prof" ColumnName="social_prof" />
+          <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+          <ScalarProperty Name="email_add" ColumnName="email_add" />
+          <ScalarProperty Name="Last_name" ColumnName="Last_name" />
+          <ScalarProperty Name="First_name" ColumnName="First_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="seller_verify">
+      <EntityTypeMapping TypeName="eduketaModel.seller_verify">
+        <MappingFragment StoreEntitySet="seller_verify">
+          <ScalarProperty Name="Modify_Date" ColumnName="Modify_Date" />
+          <ScalarProperty Name="email_add" ColumnName="email_add" />
           <ScalarProperty Name="OTP" ColumnName="OTP" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
